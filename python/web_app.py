@@ -164,7 +164,7 @@ HTML = r"""<!doctype html>
       </article>
       <article class="card">
         <h3>Baseline</h3>
-        <p>Crie ou atualize a referência de confiança com o estado atual de <code>lab/</code>.</p>
+        <p id="baseline-description">Crie ou atualize a referência de confiança com o estado atual de <code>lab/</code>.</p>
         <div class="actions"><button id="baseline-button" class="warning" disabled>Atualizar baseline</button></div>
         <div id="baseline-result" class="result" aria-live="polite">A baseline não é alterada pela detecção.</div>
       </article>
@@ -176,7 +176,7 @@ HTML = r"""<!doctype html>
       </article>
       <article class="card">
         <h3>Testes automatizados</h3>
-        <p>Execute a suíte do projeto sem sair da interface.</p>
+        <p id="tests-description">Execute a suíte do projeto sem sair da interface.</p>
         <div class="actions"><button id="tests-button" class="secondary" disabled>Executar testes</button></div>
         <div id="tests-result" class="result" aria-live="polite">A suíte testa comparação, logs e integração.</div>
       </article>
@@ -186,7 +186,7 @@ HTML = r"""<!doctype html>
         <ul id="events" class="events"></ul>
       </article>
     </section>
-    <div class="notice"><strong>Importante:</strong> atualizar a baseline substitui a referência existente. A interface exige confirmação. O serviço escuta apenas neste computador.</div>
+    <div class="notice"><strong>Importante:</strong> <span id="deployment-notice">Atualizar a baseline substitui a referência existente. A interface exige confirmação.</span></div>
     <footer>SentinelLab · Ferramenta educacional de monitoramento defensivo</footer>
   </main>
   <script>
@@ -227,10 +227,19 @@ HTML = r"""<!doctype html>
       $("#baseline-result").textContent = status.read_only
         ? "Modo público somente leitura: baseline protegida."
         : "A baseline não é alterada pela detecção.";
+      $("#baseline-description").textContent = status.read_only
+        ? "A baseline desta demonstração é fixa durante cada publicação."
+        : "Crie ou atualize a referência de confiança com o estado atual de lab/.";
       $("#tests-button").disabled = status.read_only;
       $("#tests-result").textContent = status.read_only
         ? "Testes disponíveis apenas no modo local."
         : "A suíte testa comparação, logs e integração.";
+      $("#tests-description").textContent = status.read_only
+        ? "A execução de testes está disponível no modo local."
+        : "Execute a suíte do projeto sem sair da interface.";
+      $("#deployment-notice").textContent = status.read_only
+        ? "A demonstração pública é somente leitura: a baseline é fixa e as verificações não gravam eventos."
+        : "Atualizar a baseline substitui a referência existente. A interface exige confirmação.";
       $("#detect-description").textContent = status.read_only
         ? "Detecte arquivos novos, modificados ou removidos. No modo público, eventos não são gravados no histórico."
         : "Detecte arquivos novos, modificados ou removidos. Os eventos são acrescentados ao histórico JSONL.";
