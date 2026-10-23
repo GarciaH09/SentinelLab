@@ -17,6 +17,7 @@ RUN gcc c_engine/hashfile.c -o c_engine/hashfile -lcrypto \
     && python python/inventory.py \
     && chmod 0555 c_engine/hashfile \
     && chmod -R a-w data \
+    && chmod 0444 data/inventario.json \
     && useradd --system --no-create-home --shell /usr/sbin/nologin sentinellab \
     && chmod -R a-w /app
 

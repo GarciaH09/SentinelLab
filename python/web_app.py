@@ -143,7 +143,7 @@ HTML = r"""<!doctype html>
         <div class="mark" aria-hidden="true">S</div>
         <div><h1>SentinelLab</h1><p class="subtitle">Monitoramento de integridade de arquivos</p></div>
       </div>
-      <div class="local-badge"><span>●</span> Serviço local</div>
+      <div id="service-badge" class="local-badge"><span>●</span> Serviço local</div>
     </header>
     <section class="hero">
       <div class="eyebrow">Blue Team · File Integrity Monitoring</div>
@@ -165,19 +165,19 @@ HTML = r"""<!doctype html>
       <article class="card">
         <h3>Baseline</h3>
         <p>Crie ou atualize a referência de confiança com o estado atual de <code>lab/</code>.</p>
-        <div class="actions"><button id="baseline-button" class="warning">Atualizar baseline</button></div>
+        <div class="actions"><button id="baseline-button" class="warning" disabled>Atualizar baseline</button></div>
         <div id="baseline-result" class="result" aria-live="polite">A baseline não é alterada pela detecção.</div>
       </article>
       <article class="card">
         <h3>Verificação de integridade</h3>
-        <p>Detecte arquivos novos, modificados ou removidos. Os eventos são acrescentados ao histórico JSONL.</p>
+        <p id="detect-description">Detecte arquivos novos, modificados ou removidos. Os eventos são acrescentados ao histórico JSONL.</p>
         <div class="actions"><button id="detect-button">Verificar agora</button><button id="refresh-button" class="secondary">Atualizar painel</button></div>
         <div id="detect-result" class="result" aria-live="polite">Pronto para verificar os arquivos.</div>
       </article>
       <article class="card">
         <h3>Testes automatizados</h3>
         <p>Execute a suíte do projeto sem sair da interface.</p>
-        <div class="actions"><button id="tests-button" class="secondary">Executar testes</button></div>
+        <div class="actions"><button id="tests-button" class="secondary" disabled>Executar testes</button></div>
         <div id="tests-result" class="result" aria-live="polite">A suíte testa comparação, logs e integração.</div>
       </article>
       <article class="card wide">
@@ -221,6 +221,9 @@ HTML = r"""<!doctype html>
       const status = await api("/api/status");
       const pill = $("#baseline-status");
       $("#baseline-button").disabled = status.read_only;
+      $("#service-badge").innerHTML = status.read_only
+        ? "<span>●</span> Demonstração pública · somente leitura"
+        : "<span>●</span> Serviço local";
       $("#baseline-result").textContent = status.read_only
         ? "Modo público somente leitura: baseline protegida."
         : "A baseline não é alterada pela detecção.";
@@ -228,6 +231,9 @@ HTML = r"""<!doctype html>
       $("#tests-result").textContent = status.read_only
         ? "Testes disponíveis apenas no modo local."
         : "A suíte testa comparação, logs e integração.";
+      $("#detect-description").textContent = status.read_only
+        ? "Detecte arquivos novos, modificados ou removidos. No modo público, eventos não são gravados no histórico."
+        : "Detecte arquivos novos, modificados ou removidos. Os eventos são acrescentados ao histórico JSONL.";
       pill.textContent = status.baseline_exists ? "Baseline ativa" : "Baseline ausente";
       pill.className = `status-pill ${status.baseline_exists ? "ready" : ""}`;
       $("#status-summary").textContent =
