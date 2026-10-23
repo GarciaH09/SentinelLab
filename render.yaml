@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: sentinellab-demo
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: SENTINELLAB_READ_ONLY
+        value: "1"
+      - key: PYTHONDONTWRITEBYTECODE
+        value: "1"

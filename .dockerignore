@@ -1,0 +1,14 @@
+.git
+.venv
+venv
+__pycache__
+**/__pycache__
+*.py[cod]
+.env
+.vscode
+.idea
+data/inventario.json
+data/.*.tmp
+reports/eventos.jsonl
+c_engine/*.exe
+c_engine/hashfile

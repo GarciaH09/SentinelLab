@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# C build artifacts
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.exe
+build/
+c_engine/hashfile
+
+# Generated integrity data
+data/inventario.json
+data/.*.tmp
+reports/eventos.jsonl
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local environment and editor files
+.env
+.vscode/
+.idea/

@@ -1,0 +1,2 @@
+modo=normal
+porta=8080
